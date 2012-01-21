@@ -45,7 +45,7 @@ out: PID: 12345
 <span class="o">...</span>
 </code></pre>
 </div>
-<p>I ran it again, no luck, still hanging. <span class="caps">WTF</span>? After a lot of attempts, debugging and mainly <a href="http://code.activestate.com/recipes/186101-really-closing-stdin-stdout-stderr/">research</a>, I finally found the culprit =&gt; python! (really?).</p>
+<p>I ran it again, no luck, still hanging. <span class="caps">WTF</span>? After a lot of attempts, debugging and mainly <a href="http://code.activestate.com/recipes/186101-really-closing-stdin-stdout-stderr/">research</a>, I finally found the culprit &#8594; python! (whoa?).</p>
 <p>Python sees <code>stdout</code>, <code>stderr</code> and <code>stdin</code> as special files, so when you close it the way above, python will simply <strong>mark</strong> these files as closed, but will not really close them. You could check it by yourself:</p>
 <div class="highlight"><pre><code class="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c"># so we can ignore the exceptions raised</span>
@@ -76,7 +76,7 @@ out: PID: 12345
 <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </code></pre>
 </div>
-<p>Anyways, it is worth to give <a href="http://pypi.python.org/pypi/python-daemon">python-daemon</a> a try.</p>
+<p>Conclusion: give <a href="http://pypi.python.org/pypi/python-daemon">python-daemon</a> a try.</p>
         </div>
         <!-- Google Analytics -->
         <!-- Google Analytics end -->
