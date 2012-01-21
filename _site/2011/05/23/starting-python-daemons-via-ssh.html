@@ -24,7 +24,8 @@
             <div class="title">
                 <a href="/">~chromano</a>
             </div>
-            <h1>Starting (python) daemons via <span class="caps">SSH</span> makes it hang, why?</h1>
+            <div id="post">
+    <h1>Starting (python) daemons via <span class="caps">SSH</span> makes it hang, why?</h1>
 <p>First, the reason for the <span class="caps">SSH</span> problem is described <a href="http://www.snailbook.com/faq/background-jobs.auto.html">here</a>. Second, it makes sense, but… is there an alternative other than getting rid of the daemon output? I mean, I would appreciate if I could see if the daemon was started properly without having to run two commands (ex: start and then status).</p>
 <p>OK, let’s start from the begining. I wrote a daemon in python this week and then a &#8220;runner&#8221; in shell script, which simply sets the environment variables before running the daemon itself. Everything works fine if I log in the server and run the script there, manually. But then I was asked to implement a command in the <a href="http://fabfile.org/">fabfile</a> of the project, so other developers would not be required to ssh into the server and run the command there, they could just run locally the following:</p>
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>fab daemon:start
@@ -90,6 +91,23 @@ out: PID: 12345
 </code></pre>
 </div>
 <p>Conclusion: give <a href="http://pypi.python.org/pypi/python-daemon">python-daemon</a> a try.</p>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = chromano'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
         </div>
     </body>
 </html>
