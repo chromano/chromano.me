@@ -14,7 +14,7 @@ body {
 }
 
 h1 {
-    font-size: 1.5em;
+    font-size: 1.6em;
     margin-bottom: 0.5em;
 }
 
@@ -50,9 +50,7 @@ ul.posts li {
 }
 
 ul.posts span {
-    color: #aaa;
-    font-family: Monaco, "Courier New", monospace;
-    font-size: 80%;
+    font-weight: bold;
 }
 
 .site {
@@ -60,7 +58,7 @@ ul.posts span {
   width: 600px;
   margin: 0 auto 0px auto;
   padding-bottom: 20px;
-  line-height: 1.5em;
+  line-height: 1.3em;
 }
 
 .title {
