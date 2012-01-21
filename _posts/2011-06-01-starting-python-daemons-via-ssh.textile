@@ -53,7 +53,7 @@ sys.stdout.close()
 ...
 {% endhighlight %}
 
-I ran it again, no luck, still hanging. WTF? After a lot of attempts, debugging and mainly "research":http://code.activestate.com/recipes/186101-really-closing-stdin-stdout-stderr/, I finally found the culprit => python! (really?).
+I ran it again, no luck, still hanging. WTF? After a lot of attempts, debugging and mainly "research":http://code.activestate.com/recipes/186101-really-closing-stdin-stdout-stderr/, I finally found the culprit -> python! (whoa?).
 
 Python sees <code>stdout</code>, <code>stderr</code> and <code>stdin</code> as special files, so when you close it the way above, python will simply *mark* these files as closed, but will not really close them. You could check it by yourself:
 
@@ -90,4 +90,4 @@ sys.stdout.close()
 os.close(1)
 {% endhighlight %}
 
-Anyways, it is worth to give "python-daemon":http://pypi.python.org/pypi/python-daemon a try.
+Conclusion: give "python-daemon":http://pypi.python.org/pypi/python-daemon a try.

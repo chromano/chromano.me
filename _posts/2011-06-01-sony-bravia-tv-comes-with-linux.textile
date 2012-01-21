@@ -1,0 +1,11 @@
+---
+layout: default
+title: Sony Bravia TV comes with Linux
+---
+h1. {{ page.title }}
+
+What was my surprise when I discovered Sony’s Bravia TVs came with Linux! My first action was to search for the source code and then I found "this page":http://www.sony.net/Products/Linux/TV/KDL-46NX705.html. Interesting, isn’t it? I’m wondering now how can I make my own changes and build a firmware package to update the original one :)
+
+What else can I write about the TV? It is almost perfect (it doesn’t work very well with the standard definition supplied by the cable TV provider, though).
+
+The TV also has support for "DLNA":http://en.wikipedia.org/wiki/Digital_Living_Network_Alliance, but the thing here is that I didn’t find any good media server out there. I mean, "iSedora":http://www.isedora.com/ is pretty cool, but it doesn’t support transcoding of videos with subtitles, also you’ve to pay for use it — unless your videos has less than 1 hour of duration :)
