@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: State Flow - that’s just amazing!
 ---
 h1. {{ page.title }}

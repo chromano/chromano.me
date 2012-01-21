@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: Starting (python) daemons via SSH makes it hang, why?
 ---
 h1. {{ page.title }}
