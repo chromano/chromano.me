@@ -53,6 +53,13 @@ ul.posts span {
     font-weight: bold;
 }
 
+#top {
+    width: 100%;
+	background-color: red;
+    margin-bottom: 20px;
+    border-bottom: solid #000 2px;
+}
+
 .site {
   text-align: justify;
   width: 600px;
@@ -62,21 +69,24 @@ ul.posts span {
 }
 
 .title {
+    width: 600px;
+	margin: auto;
     font-size: 2.5em;
     font-weight: bold;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-    border-bottom: solid #36393D 2px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+	text-align: left;
+	text-decoration: none;
 }
 
-.site .title a {
-    color: #36393D;
+#top .title a {
+    color: #FF0;
+	text-shadow: #000 2px 2px 1px;
     text-decoration: none;
 }
 
-.site .title a:hover {
-    color: #000;
+#top .title a:hover {
+    color: #FF8;
 }
 
 .site .meta {
