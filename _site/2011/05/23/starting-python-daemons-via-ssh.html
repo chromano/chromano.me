@@ -63,10 +63,35 @@ out: PID: 12345
 </div>
 <p>I ran it again, no luck, still hanging. <span class="caps">WTF</span>? After a lot of attempts, debugging and mainly <a href="http://code.activestate.com/recipes/186101-really-closing-stdin-stdout-stderr/">research</a>, I finally found the culprit &#8594; python! (whoa?).</p>
 <p>Python sees <code>stdout</code>, <code>stderr</code> and <code>stdin</code> as special files, so when you close it the way above, python will simply <strong>mark</strong> these files as closed, but will not really close them. You could check it by yourself:</p>
-<p>Liquid error: Resource temporarily unavailable &#8211; posix_spawnp</p>
+<div class="highlight"><pre><code class="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c"># so we can ignore the exceptions raised</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="s">&quot;Hello&quot;</span>
+<span class="n">Hello</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="s">&quot;Hello&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">os</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;Hello</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">Hello</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">os</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;Hello</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>
+</code></pre>
+</div>
 <p>As you can see in the second <code>print</code>, it seems like python really closed <code>stdout</code>, but the next attempt to write in <code>stdout</code>, through <code>os.write</code>, confirms that it didn’t happen. To close <code>stdout</code> effectively, you need to do both things: 1) <code>sys.stdout.close();</code> 2) <code>os.close(1)</code>. By the way, <code>1</code> is the file descriptor number associated with <code>stdout</code>, as defined by the standard; the call to <code>os.close</code> is a <em>system call</em>, which means this is gonna be sent to the kernel itself.</p>
 <p>So, here’s where I found the solution for starting a python daemon via <span class="caps">SSH</span> without losing its output.</p>
-<p>Liquid error: Resource temporarily unavailable &#8211; posix_spawnp</p>
+<div class="highlight"><pre><code class="python"><span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">pid</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">setsid</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">umask</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">pid</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;Started:&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span>
+<span class="c"># don&#39;t reuse stdout from parent processes, so SSH doesn&#39;t hang</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</code></pre>
+</div>
 <p>Conclusion: give <a href="http://pypi.python.org/pypi/python-daemon">python-daemon</a> a try.</p>
 </div>
 
