@@ -1,0 +1,32 @@
+---
+layout: post
+title: All I wanted from Puppet CM
+---
+h1. {{ page.title }}
+
+A small project is what I wanted to deploy. I don't know puppet well enough (I think), but I wanted to check it out and try to deploy this project using it, after all I thought that it was something about the below:
+
+{% highlight ruby %}
+service {:nginx
+    ensure => running
+}
+
+service {:mongodb
+    ensure => running
+}
+
+project {:project
+    path => /var/www/project
+    git_repo => git://foo
+}
+
+service {:gunicorn
+    ensure => running
+    app_path => /var/www/project/
+    wsgi_app => main:app
+}
+{% endhighlight %}
+
+But no, it *HAD* to be so unbelievable hard. So hard that I decided to give it up and set up the server myself. Everything is working now, but I stil wonder: _Why so hard?_
+
+I bet you can understand what I want to accomplish with the paste above, but why puppet can't? Anyways, this is just a post to think about the problem and to record my frustration with puppet.  I will probably write another blog post in response to this one, since I'm still not conformed.
