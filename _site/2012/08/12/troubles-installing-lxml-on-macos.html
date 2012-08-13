@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Troubles installing lxml on MacOS</title>
+        <link rel="stylesheet" href="/css/syntax.css" type="text/css" />
+        <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
+        <!-- Google Analytics -->
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-7872828-7']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+        <!-- Google Analytics end -->
+    </head>
+    <body>
+		<div id="top">
+            <div class="title">
+                <a href="/"><img src="/images/logo.jpg"/></a>
+            </div>
+		</div>
+        <div class="site">
+            <div id="post">
+    <h1>Troubles installing lxml on MacOS</h1>
+<p>Rumours are that you can&#8217;t replace the default versions of libxml2 and libxslt that comes with MacOS (I&#8217;m talking about MacOS 10.5 here), otherwise all kinds of evil will come to you.</p>
+<p>Problem is that lxml requires newer versions of both libxslt and libxml2.</p>
+<p>Solution, as given on lots of websites out there, is to simply build lxml and the newer versions of libxslt and libxml2 altogether and then use a strategy of static linking the libraries, so that lxml can run without depending on the system versions. It goes like this:</p>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ STATIC_DEDS</span><span class="o">=</span><span class="nb">true </span>pip install lxml
+</code></pre>
+</div>
+<p>So far so good, but when I try to do this, it ends with the following error:</p>
+<div class="highlight"><pre><code class="bash">libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I.. -I../libxslt -I/Users/chromano/lxml/build/lxml/build/tmp/libxml2/include/libxml2 -I/Users/chromano/lxml/build/lxml/build/tmp/libxml2/include -g -O2 -Wall -c pattern.c -o pattern.o
+xsltutils.c: In <span class="k">function</span> <span class="s1">&#39;xsltSaveResultTo&#39;</span>:
+xsltutils.c:1541: warning: passing argument 1 of <span class="s1">&#39;xmlBufferWriteQuotedString&#39;</span> from incompatible pointer <span class="nb">type</span>
+xsltutils.c:1554: warning: passing argument 1 of <span class="s1">&#39;xmlBufferWriteQuotedString&#39;</span> from incompatible pointer <span class="nb">type</span>
+xsltutils.c: In <span class="k">function</span> <span class="s1">&#39;xsltSaveResultToString&#39;</span>:
+xsltutils.c:1758: error: dereferencing pointer to incomplete <span class="nb">type</span>
+xsltutils.c:1759: error: dereferencing pointer to incomplete <span class="nb">type</span>
+xsltutils.c:1761: error: dereferencing pointer to incomplete <span class="nb">type</span>
+xsltutils.c:1762: error: dereferencing pointer to incomplete <span class="nb">type</span>
+make<span class="o">[</span>2<span class="o">]</span>: *** <span class="o">[</span>xsltutils.lo<span class="o">]</span> Error 1
+</code></pre>
+</div>
+<p>It happens because lxml downloaded and tried to build the latest version of libxslt and libxml2. However I discovered that the latest libxslt (1.1.26) doesn&#8217;t compile with libxml2 2.9.0!</p>
+<p>The solution is pretty simple though, you just have to specify the correct version of libxml2 you want to use &#8211; and for libxslt 1.1.26 it is 2.7.8 (I discovered this after asking a friend what was the version of these libraries on his ubuntu, thanks Felipe!):</p>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ LIBXML2_VERSION</span><span class="o">=</span>2.7.8 <span class="nv">STATIC_DEPS</span><span class="o">=</span><span class="nb">true </span>pip install lxml
+</code></pre>
+</div>
+<p>You&#8217;re welcome!</p>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'chromano'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        </div>
+    </body>
+</html>
