@@ -158,3 +158,10 @@ ul.posts span {
 #intro img.twitter {
     width: 32px;
 }
+
+a.btn, a.btn:hover {
+    padding: 10px;
+    border: solid #888 1px;
+    text-decoration: none;
+}
+
