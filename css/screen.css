@@ -37,81 +37,35 @@ a:visited {
     color: #a0a;
 }
 
-table {
-    font-size: inherit;
-    font: 100%;
-}
-
-
-ul.posts {
-  list-style-type: none;
-  margin-bottom: 2em;
-}
-
-ul.posts li {
-    line-height: 1.75em;
-}
-
-ul.posts span {
-    font-weight: bold;
-}
-
 #top {
     width: 100%;
-	background-color: #555;
+    background-color: #555;
     margin-bottom: 20px;
-    border-bottom: solid #333 2px;
 }
 
 .site {
-  text-align: justify;
-  width: 800px;
-  margin: 0 auto 0px auto;
-  padding-bottom: 20px;
-  line-height: 1.3em;
+    text-align: left;
+    width: 800px;
+    margin: 0 auto 0px auto;
+    padding-bottom: 20px;
+    line-height: 1.3em;
 }
 
 .title {
     width: 800px;
-	margin: auto;
+    margin: auto;
     padding: 10px;
     padding-left: 0px;
-	text-decoration: none;
-    text-align: left;
-}
-
-.title .menu {
-    float: right;
-}
-
-.title .menu ul {
-    list-style-type: none;
-    margin-top: 25px;
-}
-
-.title .menu ul li {
-    float: left;
-    margin-left: 2px;
-}
-
-.title .menu ul li a, .title .menu ul li a:hover {
-    padding: 10px;
-    background-color: #333;
     text-decoration: none;
-    color: #fff;
-    font-weight: bold;
+    text-align: left;
 }
 
 #top .title > a {
     font-size: 2.5em;
     font-weight: bold;
     color: #fff;
-	text-shadow: #333 0px 0px 1px;
+    text-shadow: #000 0px 0px 1px;
     text-decoration: none;
-}
-
-.site .meta {
-    color: #aaa;
 }
 
 /* terminal */
@@ -126,42 +80,46 @@ ul.posts span {
     background-color: #333;
 }
 
-#related {
-    margin-top: 2em;
-}
-
-#related h2 {
-    margin-bottom: 1em;
-}
-
-#intro {
-    display: block;
-    margin-bottom: 20px;
-    background-color: #CCF;
-    padding: 10px;
-}
-
-#intro #external-links {
-    margin-top: 10px;
-}
-
-#intro img.my-pic {
+#side #my-pic {
     float: left;
     width: 80px;
     margin-right: 10px;
 }
 
-#intro img.github {
-    width: 32px;
+#side {
+    float: left;
+    width: 40%;
 }
 
-#intro img.twitter {
-    width: 32px;
+#side p {
+    margin: 10px;
 }
 
-a.btn, a.btn:hover {
-    padding: 10px;
-    border: solid #888 1px;
-    text-decoration: none;
+#side ul {
+    border-right: dashed #ccc 1px;
+    list-style-type: none;
 }
+
+#side ul li.profile {
+    text-align: center;
+}
+
+#posts {
+    float: left;
+    margin-left: 10px;
+}
+
+#posts ul.posts {
+  list-style-type: none;
+  margin-bottom: 2em;
+}
+
+#posts ul.posts li {
+    line-height: 1.75em;
+}
+
+#posts ul.posts span {
+    font-weight: bold;
+}
+
 
