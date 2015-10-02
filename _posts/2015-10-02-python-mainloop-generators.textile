@@ -1,0 +1,61 @@
+---
+layout: post
+title: Extending Python's generators to support mainloops
+---
+h1. {{ page.title }}
+
+The goal is simple: given a list of generators, consume them all at once.  Think about it for a moment. The idea of generators is to act on data when they are available, but while this is not case, go ahead and do other things that doesn't depend on that data. Right?
+
+Right. But what happens when you've got two or more generators? Well, you could write your code specifically for consuming one iteration at time by using <code>next()</code> calls, but that's kind of... boring.
+
+{% highlight python %}
+    output = [
+        (line for line in sys.stdin),
+        (line for line in cxn.recv()),
+    ]
+    while output:
+        for producer in output[:]:
+            try:
+                print(next(producer))
+            except StopIteration:
+                output.remove(producer)
+{% endhighlight %}
+
+For me it is something that happens frequently, but I also have a feeling that this is so frequent that can be called a pattern and the code above boilerplate.
+
+Can we eliminate it? There are few alternatives that I'd love to see in Python:
+
+{% highlight python %}
+    output = [
+        (line for line in sys.stdin),
+        (line for line in cxn.recv()),
+    ]
+    for line in next(*output):
+        print(line)
+{% endhighlight %}
+
+Or it could be at least a function in <code>itertools</code> module:
+
+{% highlight python %}
+    output = [
+        (line for line in sys.stdin),
+        (line for line in cxn.recv()),
+    ]
+    for line in itertools.consume(*output):
+        print(line)
+{% endhighlight %}
+
+What does it have to do with mainloops anyways you ask. Well, I believe if we get this into Python, we could use it for creating a mainloop using generators very easily:
+
+{% highlight python %}
+    events = [
+        screen_events,
+        kb_events,
+        mouse_events,
+        net_events,
+        timer_events,
+    ]
+    def mainloop():
+        for event in next(*events):
+            callback(event)
+{% endhighlight %}

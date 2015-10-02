@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Extending Python's generators to support mainloops</title>
+        <link rel="stylesheet" href="/css/syntax.css" type="text/css" />
+        <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
+        <!-- Google Analytics -->
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-7872828-7']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+        <!-- Google Analytics end -->
+    </head>
+    <body>
+		<div id="top">
+            <div class="title">
+                <a href="/">~chromano</a>
+            </div>
+		</div>
+        <div class="site">
+            <div id="post">
+    <h1>Extending Python&#8217;s generators to support mainloops</h1>
+<p>The goal is simple: given a list of generators, consume them all at once.  Think about it for a moment. The idea of generators is to act on data when they are available, but while this is not case, go ahead and do other things that doesn&#8217;t depend on that data. Right?</p>
+<p>Right. But what happens when you&#8217;ve got two or more generators? Well, you could write your code specifically for consuming one iteration at time by using <code>next()</code> calls, but that&#8217;s kind of&#8230; boring.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">output</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">cxn</span><span class="o">.</span><span class="n">recv</span><span class="p">()),</span>
+    <span class="p">]</span>
+    <span class="k">while</span> <span class="n">output</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">producer</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[:]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">producer</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">producer</span><span class="p">)</span></code></pre></div><p>For me it is something that happens frequently, but I also have a feeling that this is so frequent that can be called a pattern and the code above boilerplate.</p>
+<p>Can we eliminate it? There are few alternatives that I&#8217;d love to see in Python:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">output</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">cxn</span><span class="o">.</span><span class="n">recv</span><span class="p">()),</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">next</span><span class="p">(</span><span class="o">*</span><span class="n">output</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></code></pre></div><p>Or it could be at least a function in <code>itertools</code> module:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">output</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">cxn</span><span class="o">.</span><span class="n">recv</span><span class="p">()),</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">consume</span><span class="p">(</span><span class="o">*</span><span class="n">output</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></code></pre></div><p>What does it have to do with mainloops anyways you ask. Well, I believe if we get this into Python, we could use it for creating a mainloop using generators very easily:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">events</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">screen_events</span><span class="p">,</span>
+        <span class="n">kb_events</span><span class="p">,</span>
+        <span class="n">mouse_events</span><span class="p">,</span>
+        <span class="n">net_events</span><span class="p">,</span>
+        <span class="n">timer_events</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">def</span> <span class="nf">mainloop</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="nb">next</span><span class="p">(</span><span class="o">*</span><span class="n">events</span><span class="p">):</span>
+            <span class="n">callback</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></code></pre></div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'chromano'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        </div>
+    </body>
+</html>
