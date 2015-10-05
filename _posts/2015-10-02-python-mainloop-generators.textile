@@ -6,7 +6,7 @@ h1. {{ page.title }}
 
 The goal is simple: given a list of generators, consume them all at once.  Think about it for a moment. The idea of generators is to act on data when they are available, but while this is not case, go ahead and do other things that doesn't depend on that data. Right?
 
-Right. But what happens when you've got two or more generators? Well, you could write your code specifically for consuming one iteration at time by using <code>next()</code> calls, but that's kind of... boring.
+Right. But what happens when you've got two or more generators? Well, you could write your code specifically for consuming one iteration at time by using <code>next()</code> calls, but that's kind of... boring. Plus, you have the risk of getting blocked at one generator while the other still producing data.
 
 {% highlight python %}
     output = [
@@ -59,3 +59,5 @@ What does it have to do with mainloops anyways you ask. Well, I believe if we ge
         for event in next(*events):
             callback(event)
 {% endhighlight %}
+
+What I'm trying to see with this post is what is the likelihood of such a feature being accepted as a PEP or just a regular patch, i.e, I'd like the demand of it or at least what are you guys doing to solve this problem.

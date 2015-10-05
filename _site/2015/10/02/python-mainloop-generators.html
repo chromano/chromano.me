@@ -29,7 +29,7 @@
             <div id="post">
     <h1>Extending Python&#8217;s generators to support mainloops</h1>
 <p>The goal is simple: given a list of generators, consume them all at once.  Think about it for a moment. The idea of generators is to act on data when they are available, but while this is not case, go ahead and do other things that doesn&#8217;t depend on that data. Right?</p>
-<p>Right. But what happens when you&#8217;ve got two or more generators? Well, you could write your code specifically for consuming one iteration at time by using <code>next()</code> calls, but that&#8217;s kind of&#8230; boring.</p>
+<p>Right. But what happens when you&#8217;ve got two or more generators? Well, you could write your code specifically for consuming one iteration at time by using <code>next()</code> calls, but that&#8217;s kind of&#8230; boring. Plus, you have the risk of getting blocked at one generator while the other still producing data.</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">output</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">),</span>
         <span class="p">(</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">cxn</span><span class="o">.</span><span class="n">recv</span><span class="p">()),</span>
@@ -62,7 +62,7 @@
     <span class="p">]</span>
     <span class="k">def</span> <span class="nf">mainloop</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="nb">next</span><span class="p">(</span><span class="o">*</span><span class="n">events</span><span class="p">):</span>
-            <span class="n">callback</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></code></pre></div>
+            <span class="n">callback</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></code></pre></div><p>What I&#8217;m trying to see with this post is what is the likelihood of such a feature being accepted as a <span class="caps">PEP</span> or just a regular patch, i.e, I&#8217;d like the demand of it or at least what are you guys doing to solve this problem.</p>
 </div>
 
 <div id="disqus_thread"></div>
