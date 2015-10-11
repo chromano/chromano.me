@@ -3,8 +3,9 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <title>Starting (python) daemons via SSH makes it hang, why?</title>
-        <link rel="stylesheet" href="/css/syntax.css" type="text/css" />
         <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
+        <link href='https://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/css/syntax.css" type="text/css" />
         <!-- Google Analytics -->
         <script type="text/javascript">
             var _gaq = _gaq || [];
@@ -20,50 +21,32 @@
         <!-- Google Analytics end -->
     </head>
     <body>
-		<div id="top">
+        <div id="top">
             <div class="title">
-                <a href="/">~chromano</a>
+                <a href="/">ch</a>
             </div>
-		</div>
+        </div>
         <div class="site">
             <div id="post">
     <h1>Starting (python) daemons via <span class="caps">SSH</span> makes it hang, why?</h1>
 <p>First, the reason for the <span class="caps">SSH</span> problem is described <a href="http://www.snailbook.com/faq/background-jobs.auto.html">here</a>. Second, it makes sense, but… is there an alternative other than getting rid of the daemon output? I mean, I would appreciate if I could see if the daemon was started properly without having to run two commands (ex: start and then status).</p>
 <p>OK, let’s start from the begining. I wrote a daemon in python this week and then a &#8220;runner&#8221; in shell script, which simply sets the environment variables before running the daemon itself. Everything works fine if I log in the server and run the script there, manually. But then I was asked to implement a command in the <a href="http://fabfile.org/">fabfile</a> of the project, so other developers would not be required to ssh into the server and run the command there, they could just run locally the following:</p>
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>fab daemon:start
-</code></pre>
-</div>
-<p>…and having it saying if it succeed or not:</p>
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>fab daemon:start
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>fab daemon:start</code></pre></div><p>…and having it saying if it succeed or not:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>fab daemon:start
 out: Starting...
-out: PID: 12345
-</code></pre>
-</div>
-<p>By the way, what fab really does is to connect in the server and run a set of commands defined in a file <code>fabfile.py</code>. In my case, the steps for <code>daemon:start</code> are:</p>
-<div class="highlight"><pre><code class="bash"><span class="nb">cd</span> ~project/project/ <span class="o">&amp;&amp;</span> ./scripts/daemon.sh start
-</code></pre>
-</div>
-<p>So, the command fab is really running is something like this:</p>
-<div class="highlight"><pre><code class="bash">ssh user@host <span class="s2">&quot;cd ~project/project/ &amp;&amp; ./scripts/daemon.sh start&quot;</span>
-</code></pre>
-</div>
-<p>If I try to run this command by myself, <span class="caps">SSH</span> will hang (same way does fab). Obviously, the problem was the way I tried to run the script. After reading about the <a href="http://www.snailbook.com/faq/background-jobs.auto.html"><span class="caps">SSH</span> problem</a>, I changed the command above to redirect <code>stdout</code> to <code>/dev/null</code> and I tried again:</p>
-<div class="highlight"><pre><code class="bash">ssh user@host <span class="s2">&quot;cd ~project/project/ &amp;&amp; \</span>
-<span class="s2">    ./scripts/daemon.sh start &gt;/dev/null&quot;</span>
-</code></pre>
-</div>
-<p>It worked, but it lost the output and there’s no way to know if the command really worked, unless a <code>status</code> command is ran next. Bummer!</p>
+out: PID: 12345</code></pre></div><p>By the way, what fab really does is to connect in the server and run a set of commands defined in a file <code>fabfile.py</code>. In my case, the steps for <code>daemon:start</code> are:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> ~project/project/ <span class="o">&amp;&amp;</span> ./scripts/daemon.sh start</code></pre></div><p>So, the command fab is really running is something like this:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">ssh user@host <span class="s2">&quot;cd ~project/project/ &amp;&amp; ./scripts/daemon.sh start&quot;</span></code></pre></div><p>If I try to run this command by myself, <span class="caps">SSH</span> will hang (same way does fab). Obviously, the problem was the way I tried to run the script. After reading about the <a href="http://www.snailbook.com/faq/background-jobs.auto.html"><span class="caps">SSH</span> problem</a>, I changed the command above to redirect <code>stdout</code> to <code>/dev/null</code> and I tried again:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">ssh user@host <span class="s2">&quot;cd ~project/project/ &amp;&amp; \</span>
+<span class="s2">    ./scripts/daemon.sh start &gt;/dev/null&quot;</span></code></pre></div><p>It worked, but it lost the output and there’s no way to know if the command really worked, unless a <code>status</code> command is ran next. Bummer!</p>
 <p>I had to know what was going on, and the first step I took was reviewing the forking process in the daemon code. As you may know, when the subject comes to daemonizing things, <a href="http://www.steve.org.uk/Reference/Unix/faq_2.html#SEC16">Richard Steven’s tutorial</a> is <em>the reference</em>. After reading these steps, I realized that I missed the following:</p>
 <pre>6. close() fds 0, 1, and 2.</pre>
 <p>Uh! Certainly it is the problem, let’s try closing <code>stdout</code> after the two forks, i.e, close the <code>stdout</code> in the <strong>final</strong> daemon process:</p>
-<div class="highlight"><pre><code class="python"><span class="o">...</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">...</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<span class="o">...</span>
-</code></pre>
-</div>
-<p>I ran it again, no luck, still hanging. <span class="caps">WTF</span>? After a lot of attempts, debugging and mainly <a href="http://code.activestate.com/recipes/186101-really-closing-stdin-stdout-stderr/">research</a>, I finally found the culprit &#8594; python! (whoa?).</p>
+<span class="o">...</span></code></pre></div><p>I ran it again, no luck, still hanging. <span class="caps">WTF</span>? After a lot of attempts, debugging and mainly <a href="http://code.activestate.com/recipes/186101-really-closing-stdin-stdout-stderr/">research</a>, I finally found the culprit &#8594; python! (whoa?).</p>
 <p>Python sees <code>stdout</code>, <code>stderr</code> and <code>stdin</code> as special files, so when you close it the way above, python will simply <strong>mark</strong> these files as closed, but will not really close them. You could check it by yourself:</p>
-<div class="highlight"><pre><code class="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c"># so we can ignore the exceptions raised</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="s">&quot;Hello&quot;</span>
 <span class="n">Hello</span>
@@ -73,12 +56,9 @@ out: PID: 12345
 <span class="n">Hello</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">os</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;Hello</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span>
-</code></pre>
-</div>
-<p>As you can see in the second <code>print</code>, it seems like python really closed <code>stdout</code>, but the next attempt to write in <code>stdout</code>, through <code>os.write</code>, confirms that it didn’t happen. To close <code>stdout</code> effectively, you need to do both things: 1) <code>sys.stdout.close();</code> 2) <code>os.close(1)</code>. By the way, <code>1</code> is the file descriptor number associated with <code>stdout</code>, as defined by the standard; the call to <code>os.close</code> is a <em>system call</em>, which means this is gonna be sent to the kernel itself.</p>
+<span class="o">&gt;&gt;&gt;</span></code></pre></div><p>As you can see in the second <code>print</code>, it seems like python really closed <code>stdout</code>, but the next attempt to write in <code>stdout</code>, through <code>os.write</code>, confirms that it didn’t happen. To close <code>stdout</code> effectively, you need to do both things: 1) <code>sys.stdout.close();</code> 2) <code>os.close(1)</code>. By the way, <code>1</code> is the file descriptor number associated with <code>stdout</code>, as defined by the standard; the call to <code>os.close</code> is a <em>system call</em>, which means this is gonna be sent to the kernel itself.</p>
 <p>So, here’s where I found the solution for starting a python daemon via <span class="caps">SSH</span> without losing its output.</p>
-<div class="highlight"><pre><code class="python"><span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
 <span class="k">if</span> <span class="n">pid</span><span class="p">:</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">setsid</span><span class="p">()</span>
@@ -89,10 +69,7 @@ out: PID: 12345
 <span class="k">print</span> <span class="s">&quot;Started:&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span>
 <span class="c"># don&#39;t reuse stdout from parent processes, so SSH doesn&#39;t hang</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</code></pre>
-</div>
-<p>Conclusion: give <a href="http://pypi.python.org/pypi/python-daemon">python-daemon</a> a try.</p>
+<span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></code></pre></div><p>Conclusion: give <a href="http://pypi.python.org/pypi/python-daemon">python-daemon</a> a try.</p>
 </div>
 
 <div id="disqus_thread"></div>

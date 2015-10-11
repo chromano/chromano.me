@@ -13,7 +13,7 @@ body {
     text-align: center;
 }
 
-h1 {
+h2 {
     font-size: 1.6em;
     margin-bottom: 0.5em;
     padding: 10px;
@@ -39,8 +39,8 @@ a:visited {
 
 #top {
     width: 100%;
-    background-color: #555;
-    margin-bottom: 20px;
+    background-color: inherit;
+    margin-bottom: 5px;
 }
 
 .site {
@@ -54,17 +54,16 @@ a:visited {
 .title {
     width: 800px;
     margin: auto;
-    padding: 10px;
-    padding-left: 0px;
+    padding: 5px;
     text-decoration: none;
-    text-align: left;
+    text-align: center;
 }
 
 #top .title > a {
-    font-size: 2.5em;
+    font-family: 'Rock Salt', cursive;
+    font-size: 4em;
     font-weight: bold;
-    color: #fff;
-    text-shadow: #000 0px 0px 1px;
+    color: #333;
     text-decoration: none;
 }
 
@@ -80,46 +79,69 @@ a:visited {
     background-color: #333;
 }
 
-#side #my-pic {
+#left #my-pic {
     float: left;
-    width: 80px;
+    width: 120px;
     margin-right: 10px;
 }
 
-#side {
+#left {
     float: left;
     width: 40%;
 }
 
-#side p {
+#left p {
     margin: 10px;
 }
 
-#side ul {
-    border-right: dashed #ccc 1px;
+#left > ul {
+    border: dashed #ccc 1px;
     list-style-type: none;
 }
 
-#side ul li.profile {
+#left ul li.profile {
     text-align: center;
+    border-top: dashed #ccc 1px;
+    border-bottom: dashed #ccc 1px;
+    padding: 10px;
 }
 
-#posts {
+#left ul li.contributions {
+    border-bottom: dashed #ccc 1px;
+    padding-bottom: 10px;
+}
+
+#left ul a.project {
+    font-weight: bold;
+}
+
+#left ul li.contributions {
+    padding: 10px;
+}
+
+#left ul li.contributions ul {
+    margin-left: 18px;
+    margin-top: 10px;
+}
+
+#right {
     float: left;
     margin-left: 10px;
 }
 
-#posts ul.posts {
+#right > ul {
+    list-style-type: none;
+}
+
+#right ul.posts {
   list-style-type: none;
   margin-bottom: 2em;
 }
 
-#posts ul.posts li {
+#right ul.posts li {
     line-height: 1.75em;
 }
 
-#posts ul.posts span {
+#right ul.posts span {
     font-weight: bold;
 }
-
-
