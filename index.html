@@ -2,68 +2,77 @@
 layout: default
 title: ~chromano
 ---
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#menu li a").on("click", function() {
+            event.preventDefault();
+            $("#menu li.active").addClass('fade').removeClass("active");
+            $(this).parents("li").removeClass("fade").addClass('active');
+            $("#menu-content .show").removeClass("show").addClass("hide");
+            $($(this).attr("href")).removeClass("hide").addClass("show");
+        });
+    });
+</script>
 <div id="home">
-    <div id="left">
-        <ul>
-            <li>
-                <p><img id="my-pic" src="http://www.gravatar.com/avatar/3fa4d7bc17023e5bfc59314c8e0a2f1f?s=120">I am a software developer with <strong>10+ years of experience</strong> in end-to-end application
-design and development. I’m always <strong>looking for challenging projects</strong> where I can
-apply my extensive knowledge of technologies and methodologies. My mother
-tongue is Portuguese, but I am fluent in written English and proficient in
-spoken English as well.</p>
-            </li>
-            <li class="profile">
-                <p><a href="http://br.linkedin.com/in/chromano"><img src="http://www.linkedin.com/img/webpromo/btn_viewmy_120x33.png?locale=" width="120" height="33" border="0" alt="View profile of Henrique Romano on LinkedIn"></a></p>
-            </li>
-            <li class="contributions">
-                <h2>OSS Contributions</h2>
-                <ul>
-                    <li>
-                        <a class="project" href="https://www.python.org">Python</a>:
-                        <a href="http://bugs.python.org/issue2236">#2236</a>
-                    </li>
-                    <li>
-                        <a class="project" href="https://www.djangoproject.com">Django</a>:
-                        <a href="https://code.djangoproject.com/ticket/16685">#16685</a>
-                        (&rarr; <a href="https://code.djangoproject.com/ticket/16685">#9920</a>)
-                    </li>
-                    <li>
-                        <a class="project" href="https://www.mozilla.org">Mozilla</a>:
-                        <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1048844">#1048844</a> /
-                        <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=997345">#997345</a>
-                    </li>
-                    <li>
-                        <a class="project" href="http://gunicorn.org/">Gunicorn</a>:
-                        <a href="https://github.com/benoitc/gunicorn/pull/481">PR481</a>
-                    <li>
-                        <a class="project" href="https://www.github.com/open-craft">OpenCraft</a>:
-                        <a href="https://github.com/open-craft/opencraft/pull/13">PR13</a>
-                    </li>
-                    <li>
-                        <a class="project" href="http://www.gtk.org">Gtk+</a>:
-                        <a href="https://github.com/linuxmint/gtk/blob/master/gtk/gtkbuilder.c">GtkBuilder</a>
-                    </li>
-                    <li>
-                        <a class="project" href="https://github.com/chromano">Personal</a>:
-                        <a href="https://github.com/chromano/apache-log-replay">apache-log-replay</a> /
-                        <a href="https://github.com/chromano/timedbuff">timedbuff</a> /
-                        <a href="https://github.com/chromano/django-oauth2flow">django-oauth2flow</a> /
-                        <a href="https://github.com/chromano/freq">freq</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    <div id="meta">
+        <img id="pic" src="/images/photo_new.jpg" width="280">
+        <br/>
+        <a href="https://www.linkedin.com/in/chromano" style="text-decoration:none;"><img src="/images/linkedin.png" width="32" height="32" alt="LinkedIn" style="vertical-align:middle;" border="0"></a>
+        <a href="https://twitter.com/chromano" style="text-decoration:none;"><img src="/images/twitter.png" width="32" height="32" alt="Twitter" style="vertical-align:middle;" border="0"></a>
+        <a href="https://github.com/chromano" style="text-decoration:none;"><img src="/images/github.png" width="32" height="32" alt="GitHub" style="vertical-align:middle;" border="0"></a>
+        <p>I am a software developer with <strong>10+ years of experience</strong> in end-to-end application
+design and development. I’m always <strong>looking for challenging projects</strong>, get in contact!</p>
     </div>
-    <div id="right">
-        <ul>
-            <li>
-                <h2>Blog Posts</h2>
-                <ul class="posts">
-                    {% for post in site.posts %}
-                        <li><span>{{ post.date | date: "%Y-%m-%d" }}</span> &nbsp; <a href="{{ post.url }}">{{ post.title }}</a></li>
-                    {% endfor %}
-                </ul>
-            </li>
-        </ul>
+    <ul id="menu">
+        <li class="active"><a href="#blog">Blog posts</a></li>
+        <li><a href="#oss">OSS projects</a></li>
+    </ul>
+    <div id="menu-content">
+        <div id="blog" class="show">
+            <ul class="posts">
+                {% for post in site.posts %}
+                    <li><span>{{ post.date | date: "%Y-%m-%d" }}</span> &nbsp; <a href="{{ post.url }}">{{ post.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="oss" class="hide">
+            <h3>Projects of mine</h3>
+            <ul class="mine">
+                <li><a href="https://github.com/chromano/apache-log-replay">apache-log-replay</a>: Small tool for replaying an access log on an apache server, interesting approach to try reproduce the traffic on a website and identify possible bottlenecks that depends on a particular user flow (even though HTTP is stateless and so should be your application!).</li>
+                <li><a href="https://github.com/chromano/freq">freq</a>: Ridiculous application to be used with process pipes to count and display the number of lines the process has produced. You can, for example, roughly count the number of requests your webserver is receiving directly from the CLI. Or you can use it as an example on how Unix signals API work.</li>
+                <li><a href="https://github.com/chromano/annotate">annotate</a>: Interesting approach based on Stripe's documentation page to implement a sort of TL;DR system for learning or summarizing long contents.</li>
+                <li><a href="https://github.com/chromano/timedbuff">timedbuff</a>: An ought to be generic JS module to provide a timed buffer (list) where each item has a time-based lifetime. For example, when you want to keep only the calls that happened within 30 minutes on a callcenter application.</li>
+            </ul>
+            <hr/>
+            <h3>OSS contributions</h3>
+            <ul class="patches">
+                <li>
+                    <a class="project" href="https://www.python.org">Python</a>:
+                    <a href="http://bugs.python.org/issue2236">#2236</a>
+                </li>
+                <li>
+                    <a class="project" href="https://www.djangoproject.com">Django</a>:
+                    <a href="https://code.djangoproject.com/ticket/16685">#16685</a>
+                    (→ <a href="https://code.djangoproject.com/ticket/16685">#9920</a>)
+                </li>
+                <li>
+                    <a class="project" href="https://www.mozilla.org">Mozilla</a>:
+                    <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1048844">#1048844</a> /
+                    <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=997345">#997345</a>
+                </li>
+                <li>
+                    <a class="project" href="http://gunicorn.org/">Gunicorn</a>:
+                    <a href="https://github.com/benoitc/gunicorn/pull/481">PR481</a>
+                </li>
+                <li>
+                    <a class="project" href="https://www.github.com/open-craft">OpenCraft</a>:
+                    <a href="https://github.com/open-craft/opencraft/pull/13">PR13</a>
+                </li>
+                <li>
+                    <a class="project" href="http://www.gtk.org">Gtk+</a>:
+                    <a href="https://github.com/linuxmint/gtk/blob/master/gtk/gtkbuilder.c">GtkBuilder</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
