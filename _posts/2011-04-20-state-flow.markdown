@@ -1,10 +1,16 @@
 ---
 layout: post
-title: State Flow - that’s just amazing!
+title: State Flow
+tags:
+  - stateflow
+  - ted
+  - amazing
+  - learning
+  - happiness
 ---
-h1. {{ page.title }}
+# {{ page.title }}
 
-I’ve listened to a very "interesting podcast":http://www.castalio.info/murilo-queiroz-em-busca-dos-tesouros/ this week where a guy was talking about a game written by a teenager in the 80′s. The teenager locked himself in his bedroom and worked for a year on a game for ZX-81 computers (can you imagine how interesting it was in order to keep a teenager in his bedroom for a year?)
+I’ve listened to a very [interesting podcast](http://www.castalio.info/murilo-queiroz-em-busca-dos-tesouros) this week where a guy was talking about a game written by a teenager in the 80′s. The teenager locked himself in his bedroom and worked for a year on a game for ZX-81 computers (can you imagine how interesting it was in order to keep a teenager in his bedroom for a year?).
 
 In some part of the podcast, he mentioned the words “state flow” and then after some research I came to this video, where the person talking is simply the one who proposed the concept. It is really worth watching. If your (professional) life isn’t being very motivating, now you know what you gotta do: increase the challenges, improve your skills!
 

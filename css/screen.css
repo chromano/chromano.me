@@ -1,228 +1,91 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-
 html, body {
     height: 100%;
 }
 
 body {
+    color: #777;
     background-color: white;
-    font: 14px helvetica, arial, clean, sans-serif;
-    text-align: center;
-}
-
-h2 {
-    font-size: 1.6em;
-    margin-bottom: 0.5em;
-    padding: 10px;
-    padding-left: 0;
-    color: #333;
+    font: 16px helvetica, arial, clean, sans-serif;
+    line-height: 1.5em;
+    padding: 0;
+    margin: 0;
 }
 
 p {
     margin: 1em 0;
 }
 
-a {
-    color: #00a;
-}
-
-a:hover {
-    color: black;
-}
-
-a:visited {
-    color: #a0a;
+#site {
+    padding: 10px;
 }
 
 #top {
+    margin: 0px;
     width: 100%;
-    background-color: inherit;
-    margin-bottom: 5px;
-}
-
-.site {
-    text-align: left;
-    width: 800px;
-    margin: 0 auto 0px auto;
-    padding-bottom: 20px;
-    line-height: 1.5em;
-}
-
-.title {
-    width: 800px;
-    margin: auto;
-    padding: 5px;
-    text-decoration: none;
-    text-align: center;
-}
-
-#top .title > a {
-    font-family: 'Rock Salt', cursive;
-    font-size: 4em;
-    font-weight: bold;
-    color: #333;
-    text-decoration: none;
-}
-
-/* terminal */
-
-#post {
-    padding-bottom: 10px;
-    border-bottom: 1px solid black;
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-#post pre.terminal code {
-    background-color: #333;
+    background-color: #fff;
+    border-bottom: solid #777  2px;
+    padding-top: 5px;
 }
 
 #home {
-    text-align: center;
-}
-
-#home #pic {
-    border-radius: 5px;
-    margin-top: 5px;
-}
-
-#home #meta p {
-    width: 100%;
-    text-align: justify;
-    font-size: 1.2em;
-    margin-bottom: 20px;
-}
-
-#home #menu {
-    display: block;
-    list-style-type: none;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-#home #menu li {
-    display: inline-block;
-}
-
-#home #menu li a {
-    display: block;
-    background-color: #aaa;
-    padding: 10px;
-    text-decoration: none;
-    color: #eee;
+    width: 800px;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5em;
     position: relative;
-}
-
-#home #menu li a:after {
-    content: ' ';
-    height: 0;
-    position: absolute;
-    left: 50%;
-    margin-left: -10px;
-    top: 0%;
-
-    width: 0;
-
-    border: 10px solid transparent;
-
-    z-index: -9999;
-}
-
-#home #menu li.fade a:after {
-    top: 0%;
-    opacity: 0;
-    border-top-color: #aaa;
-    -webkit-transition: all .4s;
-}
-
-#home #menu li.active a:after {
-    top: 100%;
-    opacity: 1;
-    border-top-color: #222;
-    -webkit-transition: all .1s;
-}
-
-#home #menu li.fade a {
-    background-color: #aaa;
-    -webkit-transition: background-color .4s;
-}
-
-#home #menu li.active a {
-    background-color: #222;
-    -webkit-transition: background-color .1s;
-}
-
-#home #menu li:not(.active) a:hover {
-    background-color: #888;
-}
-
-#home #menu-content {
-    text-align: left;
-    margin-top: 20px;
-    position: relative;
-}
-
-#home #menu-content a {
-    color: blue;
-}
-
-#home #menu-content a:visited {
-    color: #88f;
-}
-
-#home #menu-content #blog ul {
-    list-style-type: none;
-}
-
-#home #menu-content #oss ul {
-    padding-left: 15px;
-}
-
-#home #menu-content #oss h3 {
-    margin-bottom: 10px;
-}
-
-#home #menu-content #oss hr {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border: solid #ddd 1px;
-}
-
-#home #menu-content > div {
-    position: absolute;
-}
-
-#home #menu-content > div.show {
-    display: block;
-}
-
-#home #menu-content > div.hide {
-    display: none;
-}
-
-#social {
-    width: 100%;
-}
-
-#social .services {
-    float: left;
-    width: 250px;
-    border-right: dashed #ddd 1px;
-    margin-right: 20px;
-}
-
-#social .service {
-    width: 200px;
-    margin-top: 40px;
-    text-align: center;
-}
-
-#social .service:first-child {
+    overflow: hidden;
     margin-top: 10px;
 }
 
-#social .intro {
+
+#meta {
+    width: 800px;
+    margin: auto;
+    position: relative;
 }
+
+#meta #pic {
+    float: left;
+    border-radius: 0px;
+    margin-right: 5px;
+}
+
+#meta p {
+    text-align: left;
+    font-size: 1.0em;
+    margin: 0;
+}
+
+#meta .social {
+    float: right;
+    width: 155px;
+    margin-top: 0px;
+    font-size: 2.5em;
+    text-align: right;
+}
+
+#meta .social a {
+    color: #777;
+}
+
+#posts, #post {
+    width: 800px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+#post {
+    text-align: justify;
+}
+
+#posts ul {
+    margin-left: 15px;
+}
+
+figure {
+    margin: 0;
+    padding: 0;
+}
+
+

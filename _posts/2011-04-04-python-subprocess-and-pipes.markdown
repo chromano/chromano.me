@@ -1,10 +1,12 @@
 ---
 layout: post
 title: Python’s subprocess and pipes
+tags:
+  - python
+  - unix
+  - pipes
 ---
-h1. {{ page.title }}
-
-So, have you ever tried to make commands/applications communicate through pipes using Python’s subprocess module? How would you do? I just used the following and I’m posting it here since I didn’t find anything on the internet:
+# {{ page.title }}
 
 {% highlight python %}
 import subprocess
@@ -14,5 +16,3 @@ dump_proc = subprocess.Popen(["pg_dump", "-d dbname", "-h localhost"],
 bzip_proc = subprocess.Popen(["bzip2"], stdin=dump_proc.stdout,
     stdout=open("db_backup.bz2", "wb"))
 {% endhighlight %}
-
-Cool isn’t it? Bye!

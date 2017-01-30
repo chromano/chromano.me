@@ -1,2 +1,4 @@
-pygments: true
+highlighter: pygments
 exclude: ["config.ru"]
+permalink: date
+markdown: kramdown

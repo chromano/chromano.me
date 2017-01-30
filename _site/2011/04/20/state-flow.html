@@ -2,10 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>State Flow - that’s just amazing!</title>
+        <title>State Flow</title>
         <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
         <link href='https://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/css/syntax.css" type="text/css" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css">
         <!-- Google Analytics -->
         <script type="text/javascript">
             var _gaq = _gaq || [];
@@ -22,43 +23,39 @@
         <!-- Google Analytics end -->
     </head>
     <body>
-        <!--<div id="top">
-            <div class="title">
-                <a href="/">ch</a>
+        <div id="site">
+            <div id="top">
+                <div id="meta">
+                    <a href="/"><img id="pic" src="/images/photo.jpg" width="64"></a>
+                    <div class="social">
+                        <a href="https://www.linkedin.com/in/chromano"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
+                    <a href="https://twitter.com/chromano" style="text-decoration:none;"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                    <a href="https://github.com/chromano" style="text-decoration:none;"><i class="fa fa-github" aria-hidden="true"></i></a>
+                    </div>
+                    <p>I'm a software developer with 10+ years of experience in end-to-end application design and development. I’m always looking for challenging projects, hit me up!</p>
+                    <br/>
+                </div>
             </div>
-        </div>-->
-        <div class="site">
             <div id="post">
-    <h1>State Flow &#8211; that’s just amazing!</h1>
-<p>I’ve listened to a very <a href="http://www.castalio.info/murilo-queiroz-em-busca-dos-tesouros/">interesting podcast</a> this week where a guy was talking about a game written by a teenager in the 80′s. The teenager locked himself in his bedroom and worked for a year on a game for ZX-81 computers (can you imagine how interesting it was in order to keep a teenager in his bedroom for a year?)</p>
+    <h1 id="state-flow">State Flow</h1>
+
+<p>I’ve listened to a very <a href="http://www.castalio.info/murilo-queiroz-em-busca-dos-tesouros">interesting podcast</a> this week where a guy was talking about a game written by a teenager in the 80′s. The teenager locked himself in his bedroom and worked for a year on a game for ZX-81 computers (can you imagine how interesting it was in order to keep a teenager in his bedroom for a year?).</p>
+
 <p>In some part of the podcast, he mentioned the words “state flow” and then after some research I came to this video, where the person talking is simply the one who proposed the concept. It is really worth watching. If your (professional) life isn’t being very motivating, now you know what you gotta do: increase the challenges, improve your skills!</p>
+
 <center>
-<p><object width="526" height="374"><br />
-<param name="movie" value="http://video.ted.com/assets/player/swf/EmbedPlayer.swf"></param><br />
-<param name="allowFullScreen" value="true" /><br />
-<param name="allowScriptAccess" value="always"/><br />
-<param name="wmode" value="transparent"></param><br />
-<param name="bgColor" value="#ffffff"></param><br />
-<param name="flashvars" value="vu=http://video.ted.com/talk/stream/2004/Blank/MihalyCsikszentmihalyi_2004-320k.mp4&su=http://images.ted.com/images/ted/tedindex/embed-posters/MihalyCsikszentmihalyi-2004.embed_thumbnail.jpg&vw=512&vh=288&ap=0&ti=366&lang=por_br&introDuration=15330&adDuration=4000&postAdDuration=830&adKeys=talk=mihaly_csikszentmihalyi_on_flow;year=2004;theme=how_the_mind_works;theme=unconventional_explanations;theme=the_creative_spark;event=TED2004;tag=Culture;tag=Global+Issues;tag=happiness;tag=music;tag=psychology;tag=work;&preAdTag=tconf.ted/embed;tile=1;sz=512x288;" /><br />
-<embed src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" pluginspace="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" bgColor="#ffffff" width="526" height="374" allowFullScreen="true" allowScriptAccess="always" flashvars="vu=http://video.ted.com/talk/stream/2004/Blank/MihalyCsikszentmihalyi_2004-320k.mp4&su=http://images.ted.com/images/ted/tedindex/embed-posters/MihalyCsikszentmihalyi-2004.embed_thumbnail.jpg&vw=512&vh=288&ap=0&ti=366&lang=por_br&introDuration=15330&adDuration=4000&postAdDuration=830&adKeys=talk=mihaly_csikszentmihalyi_on_flow;year=2004;theme=how_the_mind_works;theme=unconventional_explanations;theme=the_creative_spark;event=TED2004;tag=Culture;tag=Global+Issues;tag=happiness;tag=music;tag=psychology;tag=work;&preAdTag=tconf.ted/embed;tile=1;sz=512x288;"></embed><br />
-</object></p>
+<object width="526" height="374">
+<param name="movie" value="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" />&lt;/param&gt;
+<param name="allowFullScreen" value="true" />
+<param name="allowScriptAccess" value="always" />
+<param name="wmode" value="transparent" />&lt;/param&gt;
+<param name="bgColor" value="#ffffff" />&lt;/param&gt;
+<param name="flashvars" value="vu=http://video.ted.com/talk/stream/2004/Blank/MihalyCsikszentmihalyi_2004-320k.mp4&amp;su=http://images.ted.com/images/ted/tedindex/embed-posters/MihalyCsikszentmihalyi-2004.embed_thumbnail.jpg&amp;vw=512&amp;vh=288&amp;ap=0&amp;ti=366&amp;lang=por_br&amp;introDuration=15330&amp;adDuration=4000&amp;postAdDuration=830&amp;adKeys=talk=mihaly_csikszentmihalyi_on_flow;year=2004;theme=how_the_mind_works;theme=unconventional_explanations;theme=the_creative_spark;event=TED2004;tag=Culture;tag=Global+Issues;tag=happiness;tag=music;tag=psychology;tag=work;&amp;preAdTag=tconf.ted/embed;tile=1;sz=512x288;" />
+<embed src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" pluginspace="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" bgcolor="#ffffff" width="526" height="374" allowfullscreen="true" allowscriptaccess="always" flashvars="vu=http://video.ted.com/talk/stream/2004/Blank/MihalyCsikszentmihalyi_2004-320k.mp4&amp;su=http://images.ted.com/images/ted/tedindex/embed-posters/MihalyCsikszentmihalyi-2004.embed_thumbnail.jpg&amp;vw=512&amp;vh=288&amp;ap=0&amp;ti=366&amp;lang=por_br&amp;introDuration=15330&amp;adDuration=4000&amp;postAdDuration=830&amp;adKeys=talk=mihaly_csikszentmihalyi_on_flow;year=2004;theme=how_the_mind_works;theme=unconventional_explanations;theme=the_creative_spark;event=TED2004;tag=Culture;tag=Global+Issues;tag=happiness;tag=music;tag=psychology;tag=work;&amp;preAdTag=tconf.ted/embed;tile=1;sz=512x288;" />&lt;/embed&gt;
+</object>
 </center>
+
 </div>
-
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'chromano'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
 
         </div>
     </body>
