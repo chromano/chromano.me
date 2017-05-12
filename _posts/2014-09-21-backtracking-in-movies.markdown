@@ -1,11 +1,13 @@
 ---
-layout: post
 title: Backtracking technique in the movies
+date: 2014-09-21 00:00:00 Z
 tags:
-  - backtracking
-  - algorithms
-  - movie
+- backtracking
+- algorithms
+- movie
+layout: post
 ---
+
 # {{ page.title }}
 
 While studying about the backtracking technique I remembered a movie I watched that depicts very well how backtracking works.  The movie in question is *Next*, with Nicholas Cage.  Take a look:

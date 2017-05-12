@@ -1,11 +1,13 @@
 ---
-layout: post
 title: Python’s subprocess and pipes
+date: 2011-04-04 00:00:00 Z
 tags:
-  - python
-  - unix
-  - pipes
+- python
+- unix
+- pipes
+layout: post
 ---
+
 # {{ page.title }}
 
 {% highlight python %}

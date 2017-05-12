@@ -1,11 +1,13 @@
 ---
-layout: post
 title: Python daemons via SSH makes it hang
+date: 2011-05-23 00:00:00 Z
 tags:
-  - python
-  - daemons
-  - ssh
+- python
+- daemons
+- ssh
+layout: post
 ---
+
 # {{ page.title }}
 
 First, the reason for the SSH problem is described [here](http://www.snailbook.com/faq/background-jobs.auto.html). Second, it makes sense, but… is there an alternative other than getting rid of the daemon output? I mean, I would appreciate if I could see if the daemon was started properly without having to run two commands (ex: start and then status).

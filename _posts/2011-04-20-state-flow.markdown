@@ -1,13 +1,15 @@
 ---
-layout: post
 title: State Flow
+date: 2011-04-20 00:00:00 Z
 tags:
-  - stateflow
-  - ted
-  - amazing
-  - learning
-  - happiness
+- stateflow
+- ted
+- amazing
+- learning
+- happiness
+layout: post
 ---
+
 # {{ page.title }}
 
 I’ve listened to a very [interesting podcast](http://www.castalio.info/murilo-queiroz-em-busca-dos-tesouros) this week where a guy was talking about a game written by a teenager in the 80′s. The teenager locked himself in his bedroom and worked for a year on a game for ZX-81 computers (can you imagine how interesting it was in order to keep a teenager in his bedroom for a year?).
